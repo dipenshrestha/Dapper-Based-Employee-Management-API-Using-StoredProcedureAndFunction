@@ -29,8 +29,10 @@ namespace DapperAPI_usingFunctionAndStoredProcedure.Repository
             using var connection = _context.CreateConnection();
 
             //Set up DynamicParameters object to pass parameters  
-            DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("id", @id);
+            DynamicParameters parameters = new DynamicParameters(new {id});
+            //or
+            /*DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("id", @id);*/
             var result = await connection.QueryAsync<Department>("selectDepartmentById", parameters, commandType: CommandType.StoredProcedure);
             return result.FirstOrDefault() ?? throw new($"Department with ID {id} not found.");
         }
@@ -86,9 +88,12 @@ namespace DapperAPI_usingFunctionAndStoredProcedure.Repository
         public async Task UpdateAsync(Department department)
         {
             using var connection = _context.CreateConnection();
-            DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("id", department.DepartmentId);
-            parameters.Add("name", department.DepartmentName);
+            DynamicParameters parameters = new DynamicParameters(new {
+                id=department.DepartmentId,
+                name=department.DepartmentName,
+            });
+            //parameters.Add("id", department.DepartmentId);
+            //parameters.Add("name", department.DepartmentName);
             await connection.ExecuteAsync("updateDepartmentData", parameters, commandType: CommandType.StoredProcedure);
         }
 
