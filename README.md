@@ -5,9 +5,6 @@ This repository demonstrates how to execute SQL Server stored procedures with in
 1️⃣ Create the Stored Procedure in Your Database
 Create a stored procedure in your SQL Server database that accepts input parameters. Here's an example:
 
-sql
-Copy
-Edit
 CREATE PROCEDURE MyStoredProcedure
     @InputParam1 INT,
     @InputParam2 INT
@@ -16,15 +13,12 @@ BEGIN
     -- Your stored procedure logic here
     SELECT * FROM Customers WHERE CustomerId = @InputParam1 AND Status = @InputParam2;
 END
+
 2️⃣ Execute the Stored Procedure Using Dapper
 Once the stored procedure is created, you can execute it using Dapper's Query<T>() or Execute() method.
-
 Option 1: Using an Anonymous Object
 This method is straightforward for simple parameter passing. Here's how you do it:
 
-csharp
-Copy
-Edit
 using (var connection = new SqlConnection(connectionString))
 {
     // Define parameters
@@ -42,9 +36,6 @@ using (var connection = new SqlConnection(connectionString))
 Option 2: Using DynamicParameters
 For more flexibility (e.g., adding output or optional parameters), you can use DynamicParameters:
 
-csharp
-Copy
-Edit
 using (var connection = new SqlConnection(connectionString))
 {
     // Define parameters using DynamicParameters
@@ -59,7 +50,4 @@ using (var connection = new SqlConnection(connectionString))
         commandType: CommandType.StoredProcedure
     ).ToList();
 }
-📊 When to Use Each Approach?
-Approach	Best Use Case
-Anonymous Object	Simple parameter passing, no output parameters needed
-DynamicParameters	More complex scenarios, including output parameters or optional parameters
+
